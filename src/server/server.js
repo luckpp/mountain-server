@@ -25,6 +25,9 @@ class Server extends Base {
 
         standardMiddleware.attachTo(app);
         app.use('/', rootRouter.create());
+        app.all('/*', (req, res) => {
+            res.sendFile(path.join(publicPath, 'index.html'));
+        });
         errorMiddleware.attachTo(app);
         
         await this.startListening(app);
