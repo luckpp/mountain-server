@@ -35,13 +35,14 @@ class Server extends Base {
     startListening(app) {
         return new Promise((resolve, reject) => {
             if (serverConfig && serverConfig.port) {
-                let server = app.listen(serverConfig.port);
+                let port = process.env.PORT || serverConfig.port;
+                let server = app.listen(port);
                 server.on('error', (err) => {
                     this.logger.info(`Could not start server: ${err}`);
                     reject(err);
                 });
                 server.on('listening', () => {
-                    this.logger.info(`[${process.pid}] Server started on http://localhost:${serverConfig.port}`);
+                    this.logger.info(`[${process.pid}] Server started on http://localhost:${port}`);
                     resolve();
                 });
             } else {
